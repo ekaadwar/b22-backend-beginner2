@@ -28,7 +28,12 @@ exports.updateItemParsial = (data, cb) => {
   // console.log(data[lastColumn]);
 
   db.query(
-    `UPDATE items SET ${lastColumn}='${data[lastColumn]}' WHERE id=${data.id}`,
+    `UPDATE items SET ${lastColumn}=?? WHERE id=?`,
+    [data[lastColumn], data.id],
     cb
   );
+};
+
+exports.deleteItem = (id, cb) => {
+  db.query(`DELETE FROM items WHERE id=?`, [id], cb);
 };

@@ -65,27 +65,6 @@ exports.updateItemPartially = (req, res) => {
             }
           });
         }
-
-        // itemModel.updateItem(dataUpdate, (error, results, _fields) => {
-        //   if (!error) {
-        //     return res.status(200).json({
-        //       success: true,
-        //       message: "Item updated successfully!",
-        //     });
-        //   } else {
-        //     console.log(error);
-        //     return res.status(500).json({
-        //       success: false,
-        //       message: "An error occurred!",
-        //     });
-        //   }
-        // });
-
-        // return res.status(200).json({
-        //   success: true,
-        //   message: "Item found!",
-        //   results: results[0],
-        // });
       } else {
         return res.status(404).json({
           success: false,
@@ -97,7 +76,9 @@ exports.updateItemPartially = (req, res) => {
 };
 
 exports.updateItem = (req, res) => {
-  const { id } = req.params;
+  const { idString } = req.params;
+  const id = parseInt(idString);
+
   itemModel.getItemById(id, (error, results, _fields) => {
     if (!error) {
       if (results.length > 0) {
@@ -128,6 +109,36 @@ exports.updateItem = (req, res) => {
       return res.status(404).json({
         success: false,
         message: "data not found!",
+      });
+    }
+  });
+};
+
+exports.deleteItem = (req, res) => {
+  const { id: idString } = req.params;
+  const id = parseInt(idString);
+  // console.log(idString);
+  itemModel.getItemById(id, (error, results, _field) => {
+    if (!error) {
+      // console.log(results);
+      if (results.length > 0) {
+        itemModel.deleteItem(id, (error, results, _fields) => {
+          return res.status(200).json({
+            success: true,
+            message: "Itaem has been deleted!",
+          });
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "Item not found!",
+        });
+      }
+    } else {
+      console.log(error);
+      return res.status(504).json({
+        success: false,
+        message: "An error occured",
       });
     }
   });
