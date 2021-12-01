@@ -1,5 +1,9 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
+
+const { APP_PORT } = process.env;
 
 const app = express();
 
@@ -15,9 +19,11 @@ app.get("/", (req, res) => {
 });
 
 const itemRoute = require("./src/routes/items");
+const productRoute = require("./src/routes/products");
 
 app.use("/items", itemRoute);
+app.use("/products", productRoute);
 
-app.listen(8080, () => {
-  console.log("App running on port 8080");
+app.listen(APP_PORT, () => {
+  console.log(`App running on port ${APP_PORT}`);
 });
