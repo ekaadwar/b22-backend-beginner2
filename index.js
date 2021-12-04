@@ -20,9 +20,11 @@ app.get("/", (req, res) => {
 
 const itemRoute = require("./src/routes/items");
 const productRoute = require("./src/routes/products");
+const categoryRoute = require("./src/routes/categories");
 
 app.use("/items", itemRoute);
 app.use("/products", productRoute);
+app.use("/categories", categoryRoute);
 
 app.listen(APP_PORT, () => {
   console.log(`App running on port ${APP_PORT}`);
